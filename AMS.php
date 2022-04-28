@@ -94,6 +94,7 @@
             <div class='myBtn' onclick='calculate_detailed_report(getElementById("startDate_DR").value, getElementById("endDate_DR").value)' style='display:inline-block'>Calcukate</div>
             <table id='DR_TABLE'>
                 <thead>
+                    <tr><th id='DR_TABLE_DATE' class="TA_HEAD" colspan="6" style="font-size: 16px;">START to END</th></tr>
                     <tr>
                         <th class="TA_HEAD">
                             <div>ROLL NO</div>
@@ -717,7 +718,7 @@
             var studentTable = document.getElementById('TA_take_body');
             studentTable.innerHTML = "";
             students.map( (student, i) => {
-                studentTable.innerHTML += `<tr><td>${student.id}</td><td>${student.roll_no}</td><td>${student.name}</td><td><input type="checkbox" onclick="applyAttendance(${i})" name="present" value="present" ${student.present && student.present != 'false' ? "checked" : ""}></td></tr>`
+                studentTable.innerHTML += `<tr><td>${student.id}</td><td>${student.roll_no}</td><td style='text-align:left'>${student.name}</td><td><input type="checkbox" onclick="applyAttendance(${i})" name="present" value="present" ${student.present && student.present != 'false' ? "checked" : ""}></td></tr>`
             })
         }
 
@@ -766,7 +767,8 @@
             
         }
 
-        var periods = [50, 50, 45, 50, 50, 50, 50, 50]
+        // var periods = [50, 50, 45, 50, 50, 50, 50, 50]
+        var periods = [60, 60, 60, 60, 60, 60, 60, 60]
 
         function getWholeReport(){
             resetAll();
@@ -784,6 +786,7 @@
                 });
                 var table = document.getElementById('DR_BODY');
                 table.innerHTML = "";
+                document.getElementById('DR_TABLE_DATE').innerHTML = getDateFromString(start).toLocaleDateString() + " - " + getDateFromString(end).toLocaleDateString();
                 // daylist.map((v)=>v.toISOString().slice(0,10)).join("");
                 // console.log(daylist);
                 var sendData = {dates: daylist};
@@ -818,7 +821,9 @@
                             hrsStudent.push((studentsData[i]['mins_present']/60));
                         });
                         studentsData.map((s,i) => {
-                            table.innerHTML += `<tr><td>${s.roll_no}</td><td>${s.name}</td><td>${totalHrs.toFixed(2)}</td><td>${hrsStudent[i].toFixed(2)}</td><td>${(totalHrs - hrsStudent[i]).toFixed(2)}</td><td>${(s.mins_present * (100/totalMins)).toFixed(2) + "%"}</td></tr>`
+                            var perc = (s.mins_present * (100/totalMins))
+                            // table.innerHTML += `<tr><td>${s.roll_no}</td><td>${s.name}</td><td>${totalHrs.toFixed(2)}</td><td>${hrsStudent[i].toFixed(2)}</td><td>${(totalHrs - hrsStudent[i]).toFixed(2)}</td><td>${(s.mins_present * (100/totalMins)).toFixed(2) + "%"}</td></tr>`
+                            table.innerHTML += `<tr><td>${s.roll_no}</td><td style='text-align:left'>${s.name}</td><td>${parseInt(totalHrs)}</td><td>${parseInt(hrsStudent[i])}</td><td>${parseInt(totalHrs - hrsStudent[i])}</td><td>${ perc ? perc.toFixed(2) + "%" : "0.00%"}</td></tr>`
                         })
                     }
                 })
@@ -878,7 +883,7 @@
             studentTable.innerHTML = "";
             var data = cache_data;
             students.map( (student, i) => {
-                studentTable.innerHTML += `<tr><td>${student.id}</td><td>${student.roll_no}</td><td>${student.name}</td><td style="background-color:${student.present && student.present != 'false' && there ? "green" : there ? "red" : "yellow"}"></td></tr>`
+                studentTable.innerHTML += `<tr><td>${student.id}</td><td>${student.roll_no}</td><td style='text-align:left'>${student.name}</td><td style="background-color:${student.present && student.present != 'false' && there ? "green" : there ? "red" : "yellow"}"></td></tr>`
             })
         }
 
