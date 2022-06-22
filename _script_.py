@@ -1,26 +1,26 @@
 import mysql.connector, csv
 
 # --- MYSQL configuration -----
-host = "127.0.0.1"
-username = "root"
-password = ""
-database_name = "AMS"
+# host = "127.0.0.1"
+# username = "root"
+# password = ""
+# database_name = "AMS"
 table_name = "students"
-# -----------------------------
+# # -----------------------------
 
-myDb = mysql.connector.connect(
-        host=host,
-        user=username,
-        database=database_name
-    )
+# myDb = mysql.connector.connect(
+#         host=host,
+#         user=username,
+#         database=database_name
+#     )
     
-myCursor = myDb.cursor()
+# myCursor = myDb.cursor()
 
 print("Connection successfull!")
 
-query = "TRUNCATE TABLE `"+table_name+"`"
-myCursor.execute(query)
-myDb.commit()
+# query = "TRUNCATE TABLE `"+table_name+"`"
+# myCursor.execute(query)
+# myDb.commit()
 print("Table deleted")
 
 data = []
@@ -37,8 +37,8 @@ print("Query: " + query)
 #     query = "INSERT INTO `"+table_name+"` ("+"`id`, `roll_no`, `name`, `marks`"+") VALUES (" + str(d+1) + "," +','.join(["'" + i + "'" for i in data[d]])+");"  
 #     print(query)
 
-myCursor.executemany(query, data)
-myDb.commit()
+# myCursor.executemany(query, data)
+# myDb.commit()
 print("Total", len(data), "data added to table!")
 
 print(data)
